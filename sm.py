@@ -49,10 +49,42 @@ tb = tv.get_buffer()
 def get_text():
 	return tb.get_text(tb.get_start_iter(), tb.get_end_iter())
 
+def countdown_timer():
+	global countdown_time
+	if countdown_time > -1:
+		if countdown_time >= 60:
+			min = str(countdown_time / 60)
+			if len(min) < 2:
+				min = "0" + min
+		else:
+			min= "00"
+
+		if (countdown_time % 60) != 0:
+			sec = str(countdown_time % 60)
+			if len(sec) < 2:
+				sec = "0" + sec
+		else:
+			sec = "00"
+
+		if countdown_time < 11:
+			tb.set_text(sec)
+		else:
+			tb.set_text(min + ":" + sec)
+
+		countdown_time -= 1
+		gtk.timeout_add(1*1000, countdown_timer)
+
 p = optparse.OptionParser(description="screen message", prog="sm")
+p.add_option("-c", "--countdown", dest="second", help="countdown time")
 options, arguments = p.parse_args()
 
-if len(arguments) > 1:
+if options.second:
+	global countdown_time
+	tb.set_text("Start!")
+	#newtext_countdown("Start!")
+	countdown_time = int(options.second)
+	gtk.timeout_add(1*1000, countdown_timer)
+elif len(arguments) > 0:
 	tb.set_text(" ".join(arguments[0:]))
 else:
 	tb.set_text(";-)")
