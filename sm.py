@@ -25,6 +25,7 @@ import gtk
 import pango
 import sys
 import gobject
+import optparse
 
 window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 window.set_decorated(False)
@@ -48,8 +49,11 @@ tb = tv.get_buffer()
 def get_text():
 	return tb.get_text(tb.get_start_iter(), tb.get_end_iter())
 
-if len(sys.argv) > 1:
-	tb.set_text(" ".join(sys.argv[1:]))
+p = optparse.OptionParser(description="screen message", prog="sm")
+options, arguments = p.parse_args()
+
+if len(arguments) > 1:
+	tb.set_text(" ".join(arguments[0:]))
 else:
 	tb.set_text(";-)")
 
