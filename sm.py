@@ -69,7 +69,7 @@ def countdown_timer():
 			if len(sec) < 2:
 				sec = "0" + sec
 		else:
-			sec = "00"
+			sec = "End!!"
 
 		if countdown_time < 11:
 			tb.set_text(sec)
