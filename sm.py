@@ -27,6 +27,11 @@ import sys
 import gobject
 import optparse
 
+import dbus
+import dbus.service
+import dbus.glib
+import gobject
+
 window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 window.set_decorated(False)
 window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
@@ -172,5 +177,19 @@ def newtext(w):
 draw.connect("configure-event", resize)
 draw.connect("expose-event", redraw)
 tb.connect("changed", newtext)
+
+
+class BaseObject(dbus.service.Object):
+    def __init__(self, bus_name, object_path="/BaseObject"):
+        dbus.service.Object.__init__(self, bus_name, object_path)
+
+    @dbus.service.method("org.sm.SampleInterface")
+    def AddString(self, str):
+        tb.set_text(str)
+
+session_bus = dbus.SessionBus()
+name = dbus.service.BusName("org.sm.EventService", bus=session_bus)
+object = BaseObject(name)
+
 
 gtk.main()
