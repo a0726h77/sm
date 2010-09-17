@@ -1,0 +1,13 @@
+修改 screem message python版(原作者的舊版)
+
+
+增加了傳入選項參數, 讓 sm 發揮更多功能
+
+$ ./sm.py -c 60
+
+
+現在增加了 Dbus, 可以自己寫 script 並透過 Dbus 從 sm 顯示
+
+"dbus-send.sh" is a example script to send messages by dbus-send
+
+$ ./dbus-send.sh
